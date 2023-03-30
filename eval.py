@@ -6,10 +6,11 @@ import seaborn as sns
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from transformers import TrainingArguments, Trainer
 from datasets import Dataset, load_metric
-from train import emotion_names_jp
 
+emotion_names = ['Joy', 'Sadness', 'Anticipation', 'Surprise', 'Anger', 'Fear', 'Disgust', 'Trust']
+emotion_names_jp = ['喜び', '悲しみ', '期待', '驚き', '怒り', '恐れ', '嫌悪', '信頼']  # 日本語版
 num_labels = 8
-model_dir = './models/checkpoint-2000/'
+model_dir = './models'
 
 tokenizer = AutoTokenizer.from_pretrained(model_dir, local_files_only=True)
 model = AutoModelForSequenceClassification.from_pretrained(model_dir, num_labels=num_labels, local_files_only=True)
@@ -36,9 +37,13 @@ def analyze_emotion(text, show_fig=False, ret_prob=False):
         df = pd.DataFrame(out_dict.items(), columns=['name', 'prob'])
         sns.barplot(x='name', y='prob', data=df)
         plt.title('入力文 : ' + text, fontsize=15)
+        plt.show()
+
+    print(out_dict.items())
 
     if ret_prob:
+        print(out_dict)
         return out_dict
 
 # 動作確認
-analyze_emotion('今日から長期休暇だぁーーー！！！', show_fig=True)
+analyze_emotion('今日から長期休暇だぁーーー！！！', ret_prob=True)

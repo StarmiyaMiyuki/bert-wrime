@@ -2,6 +2,7 @@
 data/
 win_venv/
 models/
+trainer/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
